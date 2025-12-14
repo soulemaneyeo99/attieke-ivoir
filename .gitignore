@@ -1,0 +1,30 @@
+# General
+.DS_Store
+*.log
+node_modules/
+.next/
+build/
+dist/
+coverage/
+.env
+.env.local
+.env.*.local
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+db.sqlite3
+media/
+staticfiles/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project Specific
+attieke_ivoir_frontend/.next/
+attieke_ivoir_frontend/node_modules/
+attieke_ivoir_backend/venv/
+attieke_ivoir_backend/.venv/

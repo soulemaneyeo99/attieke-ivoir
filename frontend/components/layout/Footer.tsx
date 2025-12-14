@@ -16,18 +16,19 @@ export default function Footer() {
                     <div className="space-y-4">
                         <h4 className="text-sm font-semibold uppercase tracking-wider">Boutique</h4>
                         <ul className="space-y-2 text-sm text-gray-200">
+                            <li><Link href="/boutique" className="hover:text-white hover:underline">Tous les produits</Link></li>
+                            <li><Link href="/boutique?cat=manioc" className="hover:text-white hover:underline">Farine de Manioc</Link></li>
                             <li><Link href="/boutique?cat=attieke" className="hover:text-white hover:underline">Attiéké</Link></li>
-                            <li><Link href="/boutique?cat=poulet" className="hover:text-white hover:underline">Poulet Bio</Link></li>
-                            <li><Link href="/boutique?cat=legumes" className="hover:text-white hover:underline">Légumes</Link></li>
+                            <li><Link href="/boutique?cat=viandes" className="hover:text-white hover:underline">Viandes & Poissons</Link></li>
                         </ul>
                     </div>
 
                     <div className="space-y-4">
-                        <h4 className="text-sm font-semibold uppercase tracking-wider">Aide</h4>
+                        <h4 className="text-sm font-semibold uppercase tracking-wider">Entreprise</h4>
                         <ul className="space-y-2 text-sm text-gray-200">
+                            <li><Link href="/a-propos" className="hover:text-white hover:underline">À Propos</Link></li>
+                            <li><Link href="/contact" className="hover:text-white hover:underline">Contact</Link></li>
                             <li><Link href="/faq" className="hover:text-white hover:underline">FAQ</Link></li>
-                            <li><Link href="/livraison" className="hover:text-white hover:underline">Livraison</Link></li>
-                            <li><Link href="/contact" className="hover:text-white hover:underline">Contactez-nous</Link></li>
                         </ul>
                     </div>
 

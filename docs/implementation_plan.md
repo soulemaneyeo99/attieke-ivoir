@@ -1,91 +1,49 @@
-# Implementation Plan - Phase 3: Cart & Checkout System
+# Implementation Plan - Phase 4: Finalizing per Specifications (Cahier des Charges)
 
-# Goal Description
-Implement a fully functional shopping cart and checkout process.
-1.  **Cart**: Users can add items, change quantities, remove items. State persists in LocalStorage.
-2.  **Checkout**: Users provide shipping info and confirm order. Backend creates the Order record.
+## Goal
+Align the platform completely with the user's "Cahier des Charges":
+- **Products**: Manioc flour, Attiéké, Poultry, Rabbits, Organic Fish.
+- **Pages**: About, Contact, FAQ, specialized Shop.
+- **Payment**: Visualize Mobile Money options.
+- **Admin**: Ensure everything is manageable.
 
 ## User Review Required
-- **Guest Checkout**: We will assume guest checkout is allowed for now (or simple auto-registration).
-- **Payment**: We'll implement "Cash on Delivery" and "Mobile Money" (simulation) as payment methods.
+None. Proceeding based on provided detailed specs.
 
 ## Proposed Changes
 
-### Frontend (`attieke_ivoir_frontend`)
+### Frontend (`frontend/`)
 
-#### [NEW] [store/cart.ts](file:///c:/Users/YEO/.gemini/antigravity/playground/ecliptic-andromeda/attieke_ivoir_frontend/store/cart.ts)
-- **Zustand Store**:
-    - `items`: Array of `{ product, quantity }`.
-    - `addItem(product, quantity)`
-    - `removeItem(productId)`
-    - `updateQuantity(productId, quantity)`
-    - `clearCart()`
-    - `totalPrice()` selector.
-- **Persistence**: Use `persist` middleware from Zustand.
+#### [NEW] [app/contact/page.tsx]
+- Contact form and information (phone, email).
 
-#### [NEW] [components/cart/](file:///c:/Users/YEO/.gemini/antigravity/playground/ecliptic-andromeda/attieke_ivoir_frontend/components/cart/)
-- `CartSheet.tsx`: Slide-over drawer showing detailed cart contents (accessible from Header).
-- `CartItem.tsx`: Individual row in cart.
-- `CartSummary.tsx`: Subtotal, Shipping estimation, Total.
+#### [NEW] [app/faq/page.tsx]
+- Frequently asked questions (delivery, payment, quality).
 
-#### [NEW] [app/panier/page.tsx](file:///c:/Users/YEO/.gemini/antigravity/playground/ecliptic-andromeda/attieke_ivoir_frontend/app/panier/page.tsx)
-- Full page view of the cart (fallback if drawer is too small or for detailed review).
+#### [NEW] [app/a-propos/page.tsx]
+- Company presentation, mission (Bio/Local).
 
-#### [NEW] [app/commande/page.tsx](file:///c:/Users/YEO/.gemini/antigravity/playground/ecliptic-andromeda/attieke_ivoir_frontend/app/commande/page.tsx)
-### Auth & Navigation (New)
-#### [MODIFY] [components/layout/Header.tsx](file:///home/dev/projects/attieke-ivoir/frontend/components/layout/Header.tsx)
-- Replace "À Propos" link with "Connexion" (or "Mon Compte" if logged in)
-- Ensure User icon links to profile/login
-#### [NEW] [app/connexion/page.tsx](file:///home/dev/projects/attieke-ivoir/frontend/app/connexion/page.tsx)
-- Professional Login with Email/Password
-#### [NEW] [app/inscription/page.tsx](file:///home/dev/projects/attieke-ivoir/frontend/app/inscription/page.tsx)
-- Professional Registration form
-#### [NEW] [app/compte/page.tsx](file:///home/dev/projects/attieke-ivoir/frontend/app/compte/page.tsx)
-- Optimized User Dashboard (Orders, Info)
-- **Steps**:
-    1.  **Info**: Name, Phone, Delivery Address (Commune).
-    2.  **Payment**: Method selection (Orange/MTN/Moov/Cash).
-    3.  **Review**: Final check.
-    4.  **Success**: Confirmation screen.
-- **Logic**: Submits data to `POST /api/orders/create/`.
+#### [MODIFY] [components/layout/Footer.tsx]
+- Add links to new pages (About, Contact, FAQ).
 
-### Backend (`attieke_ivoir_backend`)
+#### [MODIFY] [app/commande/page.tsx]
+- Update payment step to visually selection between:
+    - Orange Money / MTN / Moov (Manual/On Delivery)
+    - Cash on Delivery
+- Ensure "Pays" and "Commune" selection is clear.
 
-#### [NEW] [apps/orders/serializers.py](file:///c:/Users/YEO/.gemini/antigravity/playground/ecliptic-andromeda/attieke_ivoir_backend/apps/orders/serializers.py)
-- `OrderItemSerializer`: For validation.
-- `OrderCreateSerializer`: Handles nested `items` creation properly. Transaction atomic.
+#### [MODIFY] [tailwind.config.ts] ~ Optional
+- Adjust palette if needed to include "Brown" (Earth tones).
 
-#### [NEW] [apps/orders/views.py](file:///c:/Users/YEO/.gemini/antigravity/playground/ecliptic-andromeda/attieke_ivoir_backend/apps/orders/views.py)
-- `CreateOrderView`: Public endpoint (or auth required).
-- `OrderHistoryView`: List orders for logged-in user.
+### Backend (`backend/`)
 
-#### [NEW] [apps/orders/urls.py](file:///c:/Users/YEO/.gemini/antigravity/playground/ecliptic-andromeda/attieke_ivoir_backend/apps/orders/urls.py)
-- Register endpoints.
-
-### Orders App (Backend)
-#### [MODIFY] [models.py](file:///C:/Users/YEO/.gemini/antigravity/playground/ecliptic-andromeda/attieke_ivoir_backend/apps/orders/models.py)
- - Add `first_name`, `last_name`, `email`, `commune`, `delivery_fee` fields to `Order`.
- - Ensure `phone` is present.
- - Update `__str__` methods.
-#### [NEW] [serializers.py](file:///C:/Users/YEO/.gemini/antigravity/playground/ecliptic-andromeda/attieke_ivoir_backend/apps/orders/serializers.py)
- - `OrderItemSerializer`: Simple serializer for items.
- - `OrderCreateSerializer`: Handles nested creation of items, calculation of total (validation), and user association.
-#### [NEW] [views.py](file:///C:/Users/YEO/.gemini/antigravity/playground/ecliptic-andromeda/attieke_ivoir_backend/apps/orders/views.py)
- - `OrderViewSet`: `create` (AllowAny or IsAuthenticated?), `list` (IsAuthenticated - own orders).
-#### [NEW] [urls.py](file:///C:/Users/YEO/.gemini/antigravity/playground/ecliptic-andromeda/attieke_ivoir_backend/apps/orders/urls.py)
- - Register `OrderViewSet`.
-#### [MODIFY] [config/urls.py](file:///C:/Users/YEO/.gemini/antigravity/playground/ecliptic-andromeda/attieke_ivoir_backend/config/urls.py)
- - Add `path('api/orders/', include('apps.orders.urls'))`.
+#### [NEW] [apps/products/management/commands/seed_products.py]
+-   **Script to auto-populate**:
+    -   **Categories**: "Farine de Manioc", "Attiéké", "Volailles (Poulet)", "Lapins", "Poissons Bio".
+    -   **Products**: Realistic sample data with prices and descriptions matching the prompt.
 
 ## Verification Plan
-### Manual Verification
-1.  **Add to Cart**: Go to Product page, click Add -> Verify badge count updates in Header.
-2.  **Persist**: Refresh page -> Cart should still have items.
-3.  **Checkout**: Fill form, Submit -> Check Network tab for 201 Created.
-4.  **Admin**: Check Django Admin -> New Order should appear with correct items.
-### Automated Tests
-- Run `python manage.py test apps.orders` (if tests exist, otherwise skip).
-- Use `curl` or Postman to create a dummy order.
-### Manual Verification
-- Use frontend Checkout to place an order.
-- Check Django Admin to see if the order is created correctly with all fields.
+1.  **Seeding**: Run `python manage.py seed_products` on Render (via Start Command or manual console if available, or just run locally and dump). *Better: Run locally and I'll push a data fix, OR just rely on the user using the now-working Admin.*
+    -   *Decision*: I will create the seed command so the user can run it, or I can run it via `python manage.py shell`.
+2.  **Navigation**: Check Footer links work.
+3.  **Checkout**: Verify payment options are visible.

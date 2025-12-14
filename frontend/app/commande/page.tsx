@@ -28,6 +28,7 @@ export default function CheckoutPage() {
         email: '',
         address: '',
         commune: 'Cocody',
+        paymentMethod: 'cod',
         notes: ''
     })
 
@@ -62,7 +63,7 @@ export default function CheckoutPage() {
                 email: formData.email,
                 commune: formData.commune,
                 shipping_address: formData.address,
-                payment_method: 'cod', // Hardcoded for V1
+                payment_method: formData.paymentMethod,
                 items: items.map(item => ({
                     product_id: item.id,
                     quantity: item.quantity
@@ -195,21 +196,100 @@ export default function CheckoutPage() {
                                     <CardTitle>Paiement Sécurisé</CardTitle>
                                     <CardDescription>Choisissez votre mode de paiement.</CardDescription>
                                 </CardHeader>
-                                <CardContent className="space-y-6">
-                                    <div className="p-4 border-2 border-primary bg-primary/5 rounded-xl flex items-start gap-4 cursor-pointer relative">
-                                        <div className="h-5 w-5 rounded-full border-2 border-primary bg-primary mt-1" />
-                                        <div>
-                                            <h3 className="font-bold flex items-center gap-2">Paiement à la livraison <Truck className="h-4 w-4" /></h3>
-                                            <p className="text-sm text-gray-600 mt-1">Payez en espèces ou mobile money une fois votre commande reçue.</p>
+                                <CardContent className="space-y-4">
+                                    {/* Cash on Delivery */}
+                                    <div
+                                        className={cn(
+                                            "p-4 border-2 rounded-xl flex items-start gap-4 cursor-pointer transition-all",
+                                            formData.paymentMethod === 'cod'
+                                                ? "border-primary bg-primary/5"
+                                                : "border-gray-200 hover:border-gray-300"
+                                        )}
+                                        onClick={() => setFormData({ ...formData, paymentMethod: 'cod' })}
+                                    >
+                                        <div className={cn(
+                                            "h-5 w-5 rounded-full border-2 mt-1 flex items-center justify-center",
+                                            formData.paymentMethod === 'cod' ? "border-primary" : "border-gray-300"
+                                        )}>
+                                            {formData.paymentMethod === 'cod' && <div className="h-3 w-3 rounded-full bg-primary" />}
                                         </div>
-                                        <span className="absolute top-4 right-4 bg-primary text-white text-xs font-bold px-2 py-1 rounded">Recommandé</span>
+                                        <div className="flex-1">
+                                            <h3 className="font-bold flex items-center gap-2">
+                                                💵 Paiement à la livraison (Cash)
+                                            </h3>
+                                            <p className="text-sm text-gray-600 mt-1">Payez en espèces lors de la réception de votre commande.</p>
+                                        </div>
                                     </div>
 
-                                    <div className="p-4 border rounded-xl flex items-start gap-4 cursor-pointer opacity-50">
-                                        <div className="h-5 w-5 rounded-full border-2 border-gray-300 mt-1" />
-                                        <div>
-                                            <h3 className="font-bold flex items-center gap-2">Paiement Direct (Mobile Money) <CreditCard className="h-4 w-4" /></h3>
-                                            <p className="text-sm text-gray-600 mt-1">Bientôt disponible.</p>
+                                    {/* Orange Money */}
+                                    <div
+                                        className={cn(
+                                            "p-4 border-2 rounded-xl flex items-start gap-4 cursor-pointer transition-all",
+                                            formData.paymentMethod === 'orange_money'
+                                                ? "border-primary bg-primary/5"
+                                                : "border-gray-200 hover:border-gray-300"
+                                        )}
+                                        onClick={() => setFormData({ ...formData, paymentMethod: 'orange_money' })}
+                                    >
+                                        <div className={cn(
+                                            "h-5 w-5 rounded-full border-2 mt-1 flex items-center justify-center",
+                                            formData.paymentMethod === 'orange_money' ? "border-primary" : "border-gray-300"
+                                        )}>
+                                            {formData.paymentMethod === 'orange_money' && <div className="h-3 w-3 rounded-full bg-primary" />}
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="font-bold flex items-center gap-2">
+                                                🟠 Orange Money
+                                            </h3>
+                                            <p className="text-sm text-gray-600 mt-1">Paiement mobile sécurisé via Orange Money (à la livraison).</p>
+                                        </div>
+                                    </div>
+
+                                    {/* MTN Money */}
+                                    <div
+                                        className={cn(
+                                            "p-4 border-2 rounded-xl flex items-start gap-4 cursor-pointer transition-all",
+                                            formData.paymentMethod === 'mtn_money'
+                                                ? "border-primary bg-primary/5"
+                                                : "border-gray-200 hover:border-gray-300"
+                                        )}
+                                        onClick={() => setFormData({ ...formData, paymentMethod: 'mtn_money' })}
+                                    >
+                                        <div className={cn(
+                                            "h-5 w-5 rounded-full border-2 mt-1 flex items-center justify-center",
+                                            formData.paymentMethod === 'mtn_money' ? "border-primary" : "border-gray-300"
+                                        )}>
+                                            {formData.paymentMethod === 'mtn_money' && <div className="h-3 w-3 rounded-full bg-primary" />}
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="font-bold flex items-center gap-2">
+                                                🟡 MTN Money
+                                            </h3>
+                                            <p className="text-sm text-gray-600 mt-1">Paiement mobile sécurisé via MTN Money (à la livraison).</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Moov Money */}
+                                    <div
+                                        className={cn(
+                                            "p-4 border-2 rounded-xl flex items-start gap-4 cursor-pointer transition-all",
+                                            formData.paymentMethod === 'moov_money'
+                                                ? "border-primary bg-primary/5"
+                                                : "border-gray-200 hover:border-gray-300"
+                                        )}
+                                        onClick={() => setFormData({ ...formData, paymentMethod: 'moov_money' })}
+                                    >
+                                        <div className={cn(
+                                            "h-5 w-5 rounded-full border-2 mt-1 flex items-center justify-center",
+                                            formData.paymentMethod === 'moov_money' ? "border-primary" : "border-gray-300"
+                                        )}>
+                                            {formData.paymentMethod === 'moov_money' && <div className="h-3 w-3 rounded-full bg-primary" />}
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="font-bold flex items-center gap-2">
+                                                🔵 Moov Money
+                                            </h3>
+                                            <p className="text-sm text-gray-600 mt-1">Paiement mobile sécurisé via Moov Money (à la livraison).</p>
                                         </div>
                                     </div>
 

@@ -12,7 +12,7 @@ const products = [
         name: 'Attiéké Agbodjama',
         price: 500,
         unit: 'Boule',
-        image: 'https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?q=80&w=600&auto=format&fit=crop', // Placeholder Unsplash
+        image: '/images/attieke-agbodjama.png',
         tag: 'Best Seller'
     },
     {
@@ -36,7 +36,7 @@ const products = [
         name: 'Placali Frais',
         price: 700,
         unit: 'sachet',
-        image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=600&auto=format&fit=crop',
+        image: '/images/placali-frais.png',
         tag: null
     }
 ]

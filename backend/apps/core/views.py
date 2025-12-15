@@ -80,7 +80,7 @@ Question du client: {user_message}
 Réponse (en français, maximum 150 mots):"""
 
             # Call Gemini API (using free tier model)
-            model = genai.GenerativeModel('gemini-1.5-flash')
+            model = genai.GenerativeModel('gemini-flash-latest')
             response = model.generate_content(context)
             
             ai_response = response.text.strip()
